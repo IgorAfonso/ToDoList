@@ -10,7 +10,7 @@ export default function MainTodoDashHeader() {
     addCard({
       title: "Novo Card",
       content: "Conteúdo de teste",
-      columnId: 2,
+      columnId: 0,
     });
   };
 

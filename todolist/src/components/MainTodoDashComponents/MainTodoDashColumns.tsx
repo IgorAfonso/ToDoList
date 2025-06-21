@@ -11,9 +11,10 @@ export default function ColumComponent({ id }: ColumComponentProps) {
   const filteredCards = cards.filter((card) => card.columnId === id);
 
   return (
-    <div className="bg-light_blue_bg p-2 w-full h-full rounded-lg flex flex-col gap-2">
+    <div className="bg-light_blue_bg p-2 w-full max-h-[90vh] overflow-y-auto rounded-lg flex flex-col gap-2">
       {filteredCards.map((card) => (
         <CardComponent
+          teste={() => console.log(card)}
           key={card.id}
           title={card.title}
           content={card.content}

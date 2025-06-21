@@ -27,7 +27,7 @@ export default function MainTodoDash() {
         {columnsNames.map((column) => (
           <div
             key={column.id}
-            className="w-full h-full mx-1 flex flex-col items-center gap-2"
+            className="w-full mx-1 flex flex-col items-center gap-2"
           >
             <ColumnHeader key={column.id} id={column.id} text={column.title} />
             <ColumComponent key={column.id} id={column.id} />
