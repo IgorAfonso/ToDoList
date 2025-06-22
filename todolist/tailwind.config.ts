@@ -25,6 +25,8 @@ const config: Config = {
         green: "#8BC34A",
         orange: "#FFC107",
         pool_blue: "#17A2B8",
+        gray500: "#6b7280",
+        red500: "#ef4444",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

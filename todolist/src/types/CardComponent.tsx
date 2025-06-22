@@ -1,5 +1,7 @@
 export interface CardContent {
+  id: string;
   title: string;
   content: string;
-  teste: () => void;
+  columnId: number;
+  onEdit: () => void;
 }

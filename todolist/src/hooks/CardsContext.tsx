@@ -5,6 +5,8 @@ import { Card } from "@/types/Card";
 interface CardContextType {
   cards: Card[];
   addCard: (card: Omit<Card, "id">) => void;
+  updateCard: (updatedCard: Card) => void;
+  deleteCard: (id: string) => void;
 }
 
 const CardsContext = createContext<CardContextType | undefined>(undefined);
@@ -12,6 +14,7 @@ const CardsContext = createContext<CardContextType | undefined>(undefined);
 export function CardsProvider({ children }: { children: React.ReactNode }) {
   const [cards, setCards] = useState<Card[]>([]);
 
+  // Carrega do localStorage
   useEffect(() => {
     const stored = localStorage.getItem("cards");
     if (stored) setCards(JSON.parse(stored));
@@ -31,8 +34,18 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
     setCards((prev) => [...prev, newCard]);
   };
 
+  const updateCard = (updated: Card) => {
+    setCards((prev) =>
+      prev.map((card) => (card.id === updated.id ? updated : card))
+    );
+  };
+
+  const deleteCard = (id: string) => {
+    setCards((prev) => prev.filter((card) => card.id !== id));
+  };
+
   return (
-    <CardsContext.Provider value={{ cards, addCard }}>
+    <CardsContext.Provider value={{ cards, addCard, updateCard, deleteCard }}>
       {children}
     </CardsContext.Provider>
   );
