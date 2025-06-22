@@ -43,7 +43,7 @@ Instale ToDo List com npm
   npm run dev
 ```
 
-🐳  Para instalar uma imagem docker compose execute:
+🐳  Para instalar uma imagem usando docker compose execute:
 ```bash
     docker compose build
     docker compose up -d
