@@ -57,6 +57,33 @@ export default function CardModal({
       return;
     }
 
+    if (title.length < 3) {
+      alert("O título não deve ter menos que 3 caracteres.");
+      return;
+    }
+
+    if (content.length < 10) {
+      alert("O conteúdo não deve ter menos que 10 caracteres.");
+      return;
+    }
+
+    if (createDate.length == 0 || deadLine.length == 0) {
+      alert(
+        "Não é permitido criar uma atividade sem data de criação e prazo definidos"
+      );
+      return;
+    }
+
+    const deadLineConverted = new Date(deadLine);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    deadLineConverted.setHours(0, 0, 0, 0);
+
+    if (deadLineConverted.getDate() !== today.getDate()) {
+      alert("Prazo com data retroativa não é permitido.");
+      return;
+    }
+
     onSubmit({
       id: initialId,
       title,
