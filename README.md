@@ -20,6 +20,10 @@ Os dados são armazenados localmente no navegador usando Local Storage.
 
 - Os dados das tarefas são salvos no **Local Storage** do navegador, garantindo persistência local sem servidor.
 
+## 🌐 Deploy Funcional
+  
+  https://to-do-list-eta-lime-92.vercel.app/
+
 ## 📦 Instalação
 
 Instale ToDo List com npm
