@@ -13,6 +13,8 @@ export default function MainTodoDashHeader() {
     title: string;
     content: string;
     columnId: number;
+    createDate: string;
+    deadLine: string;
   }) => {
     addCard(data);
   };
@@ -30,7 +32,6 @@ export default function MainTodoDashHeader() {
         </button>
         <UserProfileSvg width={40} height={40} />
       </div>
-
       <CardModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

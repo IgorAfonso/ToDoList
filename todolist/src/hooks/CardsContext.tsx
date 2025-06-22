@@ -14,7 +14,6 @@ const CardsContext = createContext<CardContextType | undefined>(undefined);
 export function CardsProvider({ children }: { children: React.ReactNode }) {
   const [cards, setCards] = useState<Card[]>([]);
 
-  // Carrega do localStorage
   useEffect(() => {
     const stored = localStorage.getItem("cards");
     if (stored) setCards(JSON.parse(stored));
@@ -24,12 +23,20 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("cards", JSON.stringify(cards));
   }, [cards]);
 
-  const addCard = ({ title, content, columnId }: Omit<Card, "id">) => {
+  const addCard = ({
+    title,
+    content,
+    columnId,
+    createDate,
+    deadLine,
+  }: Omit<Card, "id">) => {
     const newCard: Card = {
       id: crypto.randomUUID(),
       title,
       content,
       columnId,
+      createDate,
+      deadLine,
     };
     setCards((prev) => [...prev, newCard]);
   };
@@ -42,6 +49,7 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
 
   const deleteCard = (id: string) => {
     setCards((prev) => prev.filter((card) => card.id !== id));
+    console.log("passei aqui");
   };
 
   return (

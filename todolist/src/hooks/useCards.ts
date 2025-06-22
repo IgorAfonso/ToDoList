@@ -1,7 +1,6 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Card } from "@/types/Card";
-import { CardContent } from "@/types/CardComponent";
 
 interface CardsContextType {
   cards: Card[];
@@ -13,7 +12,6 @@ const CardsContext = createContext<CardsContextType | undefined>(undefined);
 export function CardsProvider({ children }: { children: React.ReactNode }) {
   const [cards, setCards] = useState<Card[]>([]);
 
-  // Carregar do localStorage ao iniciar
   useEffect(() => {
     const stored = localStorage.getItem("cards");
     if (stored) {
@@ -21,17 +19,24 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Atualizar localStorage quando os cards mudarem
   useEffect(() => {
     localStorage.setItem("cards", JSON.stringify(cards));
   }, [cards]);
 
-  const addCard = ({ title, content, columnId }: Omit<Card, "id">) => {
+  const addCard = ({
+    title,
+    content,
+    columnId,
+    createDate,
+    deadLine,
+  }: Omit<Card, "id">) => {
     const newCard: Card = {
       id: crypto.randomUUID(),
       title,
       content,
       columnId,
+      createDate,
+      deadLine,
     };
     setCards((prev) => [...prev, newCard]);
   };

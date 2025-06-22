@@ -3,4 +3,6 @@ export interface Card {
   title: string;
   content: string;
   columnId: number;
+  createDate: string;
+  deadLine: string;
 }

@@ -2,36 +2,78 @@
 import { useEffect, useState } from "react";
 import { CardModalProps } from "@/types/CardModalProps";
 
+const formatDate = (value?: string | Date) => {
+  if (!value) return "";
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? "" : date.toISOString().split("T")[0];
+};
+
 export default function CardModal({
   isOpen,
   onClose,
   onSubmit,
   onDelete,
+  initialId,
   initialTitle = "",
   initialContent = "",
   initialColumnId = 0,
-}: CardModalProps) {
+  initialCreateDate,
+  initialDeadLine,
+}: CardModalProps & {
+  initialId?: string;
+  initialCreateDate?: string | Date;
+  initialDeadLine?: string | Date;
+}) {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [columnId, setColumnId] = useState(initialColumnId);
+  const [createDate, setCreateDate] = useState(formatDate(initialCreateDate));
+  const [deadLine, setDeadLine] = useState(formatDate(initialDeadLine));
 
   useEffect(() => {
     if (isOpen) {
       setTitle(initialTitle);
       setContent(initialContent);
       setColumnId(initialColumnId);
+      setCreateDate(formatDate(initialCreateDate));
+      setDeadLine(formatDate(initialDeadLine));
     }
-  }, [isOpen, initialTitle, initialContent, initialColumnId]);
+  }, [
+    isOpen,
+    initialTitle,
+    initialContent,
+    initialColumnId,
+    initialCreateDate,
+    initialDeadLine,
+  ]);
 
   if (!isOpen) return null;
 
+  const isEditing = !!initialTitle;
+
   const handleSubmit = () => {
-    if (!title.trim() || !content.trim()) return;
-    onSubmit({ title, content, columnId });
+    if (!title.trim() || !content.trim()) {
+      alert("Título e Conteúdo são obrigatórios!");
+      return;
+    }
+
+    onSubmit({
+      id: initialId,
+      title,
+      content,
+      columnId,
+      createDate,
+      deadLine,
+    });
     onClose();
   };
 
-  const isEditing = !!initialTitle;
+  const handleDelete = () => {
+    if (onDelete) {
+      onDelete();
+    }
+    onClose();
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -39,6 +81,7 @@ export default function CardModal({
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl"
+          aria-label="Fechar modal"
         >
           ×
         </button>
@@ -53,6 +96,7 @@ export default function CardModal({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full mb-2 p-2 border rounded"
+          autoFocus
         />
 
         <textarea
@@ -60,7 +104,28 @@ export default function CardModal({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           className="w-full mb-2 p-2 border rounded"
+          rows={4}
         />
+
+        <div className="mb-2">
+          <label className="text-sm text-gray-600 block mb-1">Criado em:</label>
+          <input
+            type="date"
+            value={createDate}
+            onChange={(e) => setCreateDate(e.target.value)}
+            className="w-full p-2 border rounded text-sm"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-sm text-gray-600 block mb-1">Prazo:</label>
+          <input
+            type="date"
+            value={deadLine}
+            onChange={(e) => setDeadLine(e.target.value)}
+            className="w-full p-2 border rounded text-sm"
+          />
+        </div>
 
         <select
           value={columnId}
@@ -79,12 +144,9 @@ export default function CardModal({
           {isEditing ? "Salvar Alterações" : "Criar Card"}
         </button>
 
-        {isEditing && onDelete && (
+        {isEditing && (
           <button
-            onClick={() => {
-              onDelete();
-              onClose();
-            }}
+            onClick={handleDelete}
             className="w-full bg-red-600 text-white p-2 rounded mt-2 hover:bg-red-700 transition"
           >
             Excluir

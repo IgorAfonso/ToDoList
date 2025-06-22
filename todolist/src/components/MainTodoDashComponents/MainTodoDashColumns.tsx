@@ -5,7 +5,7 @@ import { Card } from "@/types/Card";
 import CardModal from "./CardModal";
 
 export default function ColumComponent({ id }: { id: number }) {
-  const { cards, deleteCard } = useCards(); // importante garantir que deleteCard está vindo do context
+  const { cards } = useCards();
   const [editingCard, setEditingCard] = useState<Card | null>(null);
 
   const filteredCards = cards.filter((card) => card.columnId === id);
@@ -20,27 +20,29 @@ export default function ColumComponent({ id }: { id: number }) {
             title={card.title}
             content={card.content}
             columnId={card.columnId}
-            onEdit={() => setEditingCard(card)}
+            createDate={card.createDate}
+            deadLine={card.deadLine}
+            onEdit={() => {
+              setEditingCard(card);
+            }}
           />
         ))}
       </div>
 
       {editingCard && (
         <CardModal
+          initialId={editingCard.id}
           initialTitle={editingCard.title}
           initialContent={editingCard.content}
           initialColumnId={editingCard.columnId}
+          initialCreateDate={editingCard.createDate}
+          initialDeadLine={editingCard.deadLine}
           isOpen={true}
           onClose={() => setEditingCard(null)}
-          onSubmit={(updated) => {
-            // aqui você pode chamar updateCard() se tiver
-            console.log("Salvar card editado:", updated);
-            console.log("passoua aai");
+          onDelete={() => {
             setEditingCard(null);
           }}
-          onDelete={() => {
-            console.log("passoua qui");
-            deleteCard(editingCard.id);
+          onSubmit={() => {
             setEditingCard(null);
           }}
         />
