@@ -74,12 +74,13 @@ export default function CardModal({
       return;
     }
 
-    const deadLineConverted = new Date(deadLine);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
+    const deadLineConverted = new Date(deadLine);
     deadLineConverted.setHours(0, 0, 0, 0);
 
-    if (deadLineConverted.getDate() !== today.getDate()) {
+    if (deadLineConverted < today) {
       alert("Prazo com data retroativa não é permitido.");
       return;
     }

@@ -8,7 +8,18 @@ export default function ColumComponent({ id }: { id: number }) {
   const { cards } = useCards();
   const [editingCard, setEditingCard] = useState<Card | null>(null);
 
-  const filteredCards = cards.filter((card) => card.columnId === id);
+  function parseDateFromString(dateString: string): Date {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  const filteredCards = cards
+    .filter((card) => card.columnId === id)
+    .sort((a, b) => {
+      const dateA = parseDateFromString(a.deadLine);
+      const dateB = parseDateFromString(b.deadLine);
+      return dateA.getTime() - dateB.getTime();
+    });
 
   return (
     <>
