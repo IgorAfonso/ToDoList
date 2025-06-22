@@ -1,7 +1,4 @@
-interface ColumnHeaderProps {
-  id: number;
-  text: string;
-}
+import { ColumnHeaderProps } from "@/types/ColumnHeaderProps";
 
 export default function ColumnHeader({ id, text }: ColumnHeaderProps) {
   const colorMap: Record<number, string> = {

@@ -52,26 +52,31 @@ export default function CardModal({
   const isEditing = !!initialTitle;
 
   const handleSubmit = () => {
-    if (!title.trim() || !content.trim()) {
-      alert("Título e Conteúdo são obrigatórios!");
-      return;
-    }
+    const validations = [
+      {
+        condicao: !title.trim() || !content.trim(),
+        mensagem: "Título e Conteúdo são obrigatórios!",
+      },
+      {
+        condicao: title.length < 3,
+        mensagem: "O título não deve ter menos que 3 caracteres.",
+      },
+      {
+        condicao: content.length < 10,
+        mensagem: "O conteúdo não deve ter menos que 10 caracteres.",
+      },
+      {
+        condicao: !createDate || !deadLine,
+        mensagem:
+          "Não é permitido criar uma atividade sem data de criação e prazo definidos",
+      },
+    ];
 
-    if (title.length < 3) {
-      alert("O título não deve ter menos que 3 caracteres.");
-      return;
-    }
-
-    if (content.length < 10) {
-      alert("O conteúdo não deve ter menos que 10 caracteres.");
-      return;
-    }
-
-    if (createDate.length == 0 || deadLine.length == 0) {
-      alert(
-        "Não é permitido criar uma atividade sem data de criação e prazo definidos"
-      );
-      return;
+    for (const { condicao, mensagem } of validations) {
+      if (condicao) {
+        alert(mensagem);
+        return;
+      }
     }
 
     const today = new Date();

@@ -1,13 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { Card } from "@/types/Card";
-
-interface CardContextType {
-  cards: Card[];
-  addCard: (card: Omit<Card, "id">) => void;
-  updateCard: (updatedCard: Card) => void;
-  deleteCard: (id: string) => void;
-}
+import { CardContextType } from "@/types/CardContextType";
 
 const CardsContext = createContext<CardContextType | undefined>(undefined);
 

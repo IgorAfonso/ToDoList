@@ -19,11 +19,11 @@ export default function MainTodoDash() {
   ];
 
   return (
-    <div className="flex flex-col w-screen h-screen">
+    <div className="flex flex-col w-screen h-screen md:container md: mx-auto">
       <div className="flex flex-row w-full h-[10%]">
         <MainTodoDashHeader />
       </div>
-      <div className="flex flex-row justify-between w-full">
+      <div className="flex flex-col px-2 mt-5 md:mt-0 md:flex-row justify-between w-full">
         {columnsNames.map((column) => (
           <div
             key={column.id}
