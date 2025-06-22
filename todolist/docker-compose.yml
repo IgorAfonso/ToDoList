@@ -1,0 +1,11 @@
+services:
+  nextjs-app:
+    build: .
+    container_name: todo-list
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /node_modules
+    environment:
+      - NODE_ENV=production
